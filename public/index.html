@@ -68,8 +68,20 @@
     padding:9px 13px;font-weight:800;font-size:12px;flex:none}
   .add[aria-pressed="true"]{background:var(--green-800);border-color:var(--green-800);color:#fff}
 
+  .trend{display:flex;align-items:center;gap:8px;margin-top:6px}
+  .spark{display:block;flex:none}
+  .spark path{fill:none;stroke:var(--green-700);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+  .spark .fill{fill:rgba(25,134,83,.10);stroke:none}
+  .trend-note{font-size:10.5px;color:var(--muted);line-height:1.35}
+  .trend-note.low{color:var(--green-700);font-weight:750}
+  .trend-note.high{color:#a05a1e}
+
   /* basket */
   .basket{position:sticky;top:92px}
+  .share{width:100%;margin-top:12px;border:1px solid #cfe3ba;background:#f4faec;color:var(--green-800);
+    border-radius:11px;padding:11px;font-weight:800;font-size:12.5px}
+  .share-url{width:100%;margin-top:8px;font-size:11px;padding:9px 10px;border:1px solid var(--line);
+    border-radius:9px;background:#fbfcfb;color:#404c45}
   .empty{color:var(--muted);font-size:13px;line-height:1.55;padding:6px 0 2px}
   .win{border:1px solid #cfe6ac;background:#f4faec;border-radius:14px;padding:16px;margin-bottom:14px}
   .win-label{font-size:11px;color:#3d6b22;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
@@ -184,7 +196,7 @@ const CATS = [
   { id:'household', label:'Household' }
 ];
 
-const state = { data:null, query:'', cat:'all', basket:new Set() };
+const state = { data:null, history:null, query:'', cat:'all', basket:new Set() };
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const rupee = n => '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: n % 1 ? 2 : 0 });
@@ -228,7 +240,86 @@ async function load(){
       '<p class="empty">No products to show yet. Once the collector has run, they’ll appear here.</p>';
     return;
   }
+  // History is optional — the site works fine without it, so a miss is silent.
+  try {
+    const h = await fetch('history.json?t=' + Date.now());
+    if (h.ok) state.history = await h.json();
+  } catch { /* no history yet */ }
+
+  restoreSharedBasket();
   renderBanner(); renderCats(); render();
+}
+
+/* ---------------- shared baskets ----------------
+   The basket lives in the URL, not on a server. Nothing to store, nothing
+   to sign into, and the link keeps working whether or not we're around.
+--------------------------------------------------- */
+function restoreSharedBasket(){
+  const m = location.hash.match(/b=([\w.\-]+)/);
+  if (!m) return;
+  const valid = new Set(state.data.products.map(p => p.id));
+  m[1].split('.').filter(id => valid.has(id)).forEach(id => state.basket.add(id));
+  if (state.basket.size) showToast(`Loaded a shared basket of ${state.basket.size} items.`);
+}
+
+function syncHash(){
+  const h = state.basket.size ? '#b=' + [...state.basket].join('.') : ' ';
+  history.replaceState(null, '', location.pathname + location.search + (state.basket.size ? h : ''));
+}
+
+function shareUrl(){
+  return location.origin + location.pathname + '#b=' + [...state.basket].join('.');
+}
+
+async function shareBasket(){
+  const url = shareUrl();
+  const text = 'My Compgro basket — see which store is cheapest';
+  if (navigator.share){
+    try { await navigator.share({ title:'Compgro basket', text, url }); return; } catch { /* cancelled */ }
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast('Link copied. Anyone who opens it gets this exact basket.');
+  } catch {
+    const box = document.getElementById('shareUrl');
+    if (box){ box.hidden = false; box.value = url; box.select(); }
+  }
+}
+
+/* ---------------- price history ---------------- */
+function series(id){
+  const s = state.history?.series?.[id];
+  return Array.isArray(s) && s.length ? s : null;
+}
+
+function sparkline(pts){
+  if (!pts || pts.length < 3) return '';
+  const w = 62, h = 22, pad = 2;
+  const vals = pts.map(p => p.p);
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  const span = hi - lo || 1;
+  const x = i => pad + (i / (pts.length - 1)) * (w - pad * 2);
+  const y = v => h - pad - ((v - lo) / span) * (h - pad * 2);
+  const line = vals.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(' ');
+  const area = `${line} L${x(vals.length - 1).toFixed(1)} ${h} L${x(0).toFixed(1)} ${h} Z`;
+  return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">
+    <path class="fill" d="${area}"/><path d="${line}"/></svg>`;
+}
+
+/* Plain-language read on where today's price sits in the recent range.
+   No retailer will ever tell you this, which is rather the point. */
+function trendNote(pts, current){
+  if (!pts || pts.length < 5 || current == null) return { text:'', cls:'' };
+  const vals = pts.map(p => p.p);
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  const days = pts.length;
+
+  if (current <= lo) return { text:`Cheapest it's been in ${days} days`, cls:'low' };
+  if (current >= hi) return { text:`Highest in ${days} days`, cls:'high' };
+
+  const gap = current - lo;
+  if (gap / lo < 0.02) return { text:`Close to its ${days}-day low`, cls:'low' };
+  return { text:`${rupee(gap)} above its ${days}-day low of ${rupee(lo)}`, cls:'' };
 }
 
 function renderBanner(){
@@ -286,6 +377,14 @@ function render(){
         ${best
           ? `<div class="item-best">${rupee(best.price)} at ${esc(storeName(best.store))}${stale ? '<span class="stale-tag">last known</span>' : ''}</div>`
           : '<div class="item-sub">Not in stock anywhere right now</div>'}
+        ${(() => {
+          const pts = series(p.id);
+          if (!pts || !best) return '';
+          const n = trendNote(pts, best.price);
+          const sp = sparkline(pts);
+          if (!sp && !n.text) return '';
+          return `<div class="trend">${sp}<span class="trend-note ${n.cls}">${esc(n.text)}</span></div>`;
+        })()}
       </div>
       <button class="add" aria-pressed="${inBasket}" onclick="toggle('${esc(p.id)}')">
         ${inBasket ? 'Added ✓' : 'Add'}
@@ -298,6 +397,7 @@ function render(){
 
 function toggle(id){
   state.basket.has(id) ? state.basket.delete(id) : state.basket.add(id);
+  syncHash();
   render();
 }
 function setCat(id){
@@ -386,6 +486,9 @@ function renderBasket(){
       ${cmp.items.map(p => `<li><span>${esc(p.name)}</span>
         <button class="remove" onclick="toggle('${esc(p.id)}')" aria-label="Remove ${esc(p.name)}">×</button></li>`).join('')}
     </ul>
+
+    <button class="share" onclick="shareBasket()">Share this basket</button>
+    <input class="share-url" id="shareUrl" hidden readonly aria-label="Shareable basket link" />
 
     <div class="lead" id="lead">${leadHtml()}</div>
   `;
