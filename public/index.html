@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0d5f43" />
+<title>Compgro — Build a basket, find the cheapest store</title>
+<meta name="description" content="Add your grocery list and Compgro tells you which store is cheapest for the whole basket." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-950:#063b2a; --green-900:#075238; --green-800:#0d5f43; --green-700:#198653;
+    --green-500:#65b92f; --lime:#c8ee72; --bg:#f8faf7; --ink:#14201b; --muted:#6b7671;
+    --line:#e8ece8; --amber:#8a5a00; --amber-bg:#fdf6e3;
+    --shadow:0 10px 30px rgba(19,57,42,.08);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition-duration:.01ms!important}}
+  body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+  button,input,select{font:inherit}
+  button{cursor:pointer}
+  :focus-visible{outline:3px solid var(--green-500);outline-offset:2px;border-radius:6px}
+  .vh{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .top-inner{max-width:1240px;margin:auto;display:flex;align-items:center;gap:14px;padding:14px 20px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:9px;font-size:24px;font-weight:900;letter-spacing:-1.1px;color:var(--green-950)}
+  .brand-mark{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;
+    background:linear-gradient(140deg,var(--lime),#8dd447);color:var(--green-950)}
+  .brand em{font-style:normal;color:#8bcf42}
+  .search{flex:1;min-width:200px;position:relative}
+  .search input{width:100%;height:44px;border:1px solid #dfe6df;border-radius:12px;padding:0 14px;background:#fcfdfc;outline:none}
+  .search input:focus{border-color:#97c976;box-shadow:0 0 0 4px rgba(101,185,47,.12)}
+  .pin{display:flex;align-items:center;gap:8px;font-size:14px}
+  .pin select{border:1px solid var(--line);border-radius:9px;padding:9px 10px;background:#fff}
+
+  main{max-width:1240px;margin:auto;padding:22px 20px 90px}
+  .hero{border-radius:18px;background:linear-gradient(120deg,#f0f8df,#ecf8e1);border:1px solid #e5efda;padding:26px;margin-bottom:20px}
+  .hero h1{margin:0 0 8px;font-size:27px;line-height:1.1;letter-spacing:-1px}
+  .hero p{margin:0;color:#4d5a52;max-width:520px;line-height:1.55}
+
+  .banner{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;
+    background:var(--amber-bg);border:1px solid #f0e0b8;color:var(--amber);font-size:12.5px;line-height:1.5;margin-bottom:18px}
+  .banner.live{background:#f1f8e9;border-color:#cfe6ac;color:#3d6b22}
+  .banner strong{display:block;margin-bottom:2px}
+
+  .layout{display:grid;grid-template-columns:1fr 350px;gap:20px;align-items:start}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+  .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+  .panel-head h2{margin:0;font-size:16px}
+  .cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:7px 13px;font-size:12px}
+  .chip[aria-pressed="true"]{background:#eef7e2;border-color:#c3e099;color:var(--green-900);font-weight:750}
+
+  .item{display:flex;gap:12px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}
+  .item:first-child{border-top:0}
+  .item-icon{width:42px;height:42px;border-radius:10px;background:#f3f6f2;display:grid;place-items:center;font-size:21px;flex:none}
+  .item-body{flex:1;min-width:0}
+  .item-name{font-weight:800;font-size:13px}
+  .item-sub{font-size:11px;color:var(--muted);margin-top:3px}
+  .item-best{font-size:11px;color:var(--green-700);font-weight:750;margin-top:4px}
+  .stale-tag{display:inline-block;font-size:9px;font-weight:800;background:#fdf3dd;color:var(--amber);
+    padding:2px 6px;border-radius:5px;margin-left:5px}
+  .add{border:1px solid #cfe3ba;background:#f4faec;color:var(--green-800);border-radius:10px;
+    padding:9px 13px;font-weight:800;font-size:12px;flex:none}
+  .add[aria-pressed="true"]{background:var(--green-800);border-color:var(--green-800);color:#fff}
+
+  /* basket */
+  .basket{position:sticky;top:92px}
+  .empty{color:var(--muted);font-size:13px;line-height:1.55;padding:6px 0 2px}
+  .win{border:1px solid #cfe6ac;background:#f4faec;border-radius:14px;padding:16px;margin-bottom:14px}
+  .win-label{font-size:11px;color:#3d6b22;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+  .win-store{font-size:22px;font-weight:900;letter-spacing:-.5px;margin:5px 0 3px}
+  .win-total{font-size:14px;font-weight:750}
+  .win-note{font-size:11.5px;color:#4e5c52;margin-top:8px;line-height:1.5}
+  .rank{display:flex;justify-content:space-between;font-size:12px;padding:9px 0;border-top:1px solid var(--line)}
+  .rank span:last-child{font-weight:800}
+  .rank.missing span:last-child{color:var(--muted);font-weight:600}
+  .split{font-size:12px;line-height:1.6;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+  .split b{color:var(--green-700)}
+  .basket-list{margin:12px 0 0;padding:0;list-style:none;font-size:12px}
+  .basket-list li{display:flex;justify-content:space-between;gap:10px;padding:6px 0;color:#3c4a43}
+  .remove{border:0;background:transparent;color:#9aa39e;font-size:15px;line-height:1;padding:0 2px}
+
+  /* lead */
+  .lead{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .lead h3{margin:0 0 5px;font-size:13px}
+  .lead p{margin:0 0 10px;font-size:11.5px;color:var(--muted);line-height:1.5}
+  .lead input[type=tel]{width:100%;height:42px;border:1px solid #dfe6df;border-radius:10px;padding:0 12px;background:#fcfdfc}
+  .consent{display:flex;gap:8px;align-items:flex-start;font-size:11px;color:var(--muted);margin:10px 0;line-height:1.45}
+  .consent input{margin-top:2px;flex:none}
+  .primary{width:100%;border:0;border-radius:11px;padding:12px;color:#fff;background:var(--green-800);font-weight:800;font-size:13px}
+  .primary:disabled{background:#b9c7bf}
+  .lead-note{font-size:10.5px;color:var(--muted);margin-top:8px;line-height:1.5}
+  .ok{font-size:12px;color:var(--green-700);font-weight:750}
+
+  .toast{position:fixed;left:50%;transform:translate(-50%,14px);bottom:22px;background:#153f30;color:#fff;
+    padding:12px 18px;border-radius:12px;font-size:12.5px;opacity:0;pointer-events:none;transition:.25s;z-index:80}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  footer{max-width:1240px;margin:auto;padding:0 20px 40px;font-size:11px;color:var(--muted);line-height:1.6}
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    .basket{position:static}
+    .pin{width:100%}
+    .hero h1{font-size:23px}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">₹</span>comp<em>gro</em></div>
+    <div class="search">
+      <label class="vh" for="q">Search for a product</label>
+      <input id="q" type="search" placeholder="Search — atta, milk, oil, dal…" autocomplete="off" />
+    </div>
+    <div class="pin">
+      <span aria-hidden="true">⌖</span>
+      <label class="vh" for="pin">Your area</label>
+      <select id="pin">
+        <option value="400001">Mumbai 400001</option>
+        <option value="400058">Mumbai 400058</option>
+        <option value="110001">Delhi 110001</option>
+        <option value="560001">Bengaluru 560001</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Add your list. We’ll find the cheapest store.</h1>
+    <p>Compgro checks grocery prices across five chains and works out where your whole basket costs least — not just one item at a time.</p>
+  </section>
+
+  <div class="banner" id="banner" role="status"></div>
+
+  <div class="layout">
+    <section class="panel" aria-labelledby="prodTitle">
+      <div class="panel-head">
+        <h2 id="prodTitle">Products</h2>
+        <button class="chip" onclick="clearFilters()">Clear filters</button>
+      </div>
+      <div class="cats" id="cats" role="group" aria-label="Filter by category"></div>
+      <div id="items"></div>
+    </section>
+
+    <aside class="panel basket" aria-labelledby="basketTitle">
+      <div class="panel-head"><h2 id="basketTitle">Your basket</h2><span id="count" class="item-sub"></span></div>
+      <div id="basketBody"></div>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  Prices are collected periodically and may be out of date — always check at the till. Compgro is not affiliated with
+  any retailer listed. Store names and marks belong to their owners.
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =======================================================================
+   Compgro — static front end.
+   Reads prices.json written by the scheduled collector. No backend here.
+   Lead capture posts to a webhook (Google Sheet / Airtable) — set LEAD_ENDPOINT.
+   ======================================================================= */
+
+const LEAD_ENDPOINT = '';   // e.g. your Apps Script or Airtable webhook URL
+
+const CATS = [
+  { id:'staples',   label:'Atta, rice & grains' },
+  { id:'pulses',    label:'Dals & pulses' },
+  { id:'dairy',     label:'Dairy & eggs' },
+  { id:'oils',      label:'Oils & ghee' },
+  { id:'snacks',    label:'Snacks & drinks' },
+  { id:'personal',  label:'Personal care' },
+  { id:'household', label:'Household' }
+];
+
+const state = { data:null, query:'', cat:'all', basket:new Set() };
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rupee = n => '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: n % 1 ? 2 : 0 });
+const storeName = id => (state.data?.stores.find(s => s.id === id) || {}).name || id;
+
+function unitPrice(price, size){
+  if (price == null || !size) return null;
+  const per = { kg:1, g:0.001, l:1, ml:0.001 }[size.unit];
+  if (!per) return null;
+  const qty = size.value * per;
+  if (!(qty > 0)) return null;
+  return { value: price / qty, unit: (size.unit === 'g' || size.unit === 'kg') ? 'kg' : 'L' };
+}
+function bestOffer(p){
+  const list = p.offers.filter(o => o.price != null);
+  if (!list.length) return null;
+  return list.reduce((a, b) => (b.price < a.price ? b : a));
+}
+function timeAgo(iso){
+  if (!iso) return 'time unknown';
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (m < 1) return 'just now';
+  if (m < 60) return m + ' min ago';
+  const h = Math.round(m / 60);
+  if (h < 24) return h + ' hr ago';
+  return Math.round(h / 24) + ' d ago';
+}
+
+/* ---------------- load ---------------- */
+async function load(){
+  try {
+    const res = await fetch('prices.json?t=' + Date.now());
+    if (!res.ok) throw new Error(res.status);
+    state.data = await res.json();
+  } catch {
+    document.getElementById('banner').className = 'banner';
+    document.getElementById('banner').innerHTML =
+      '<span aria-hidden="true">⚠️</span><div><strong>Prices unavailable</strong>' +
+      'The price file could not be loaded. Run <code>node collect-prices.js</code>, then reload.</div>';
+    document.getElementById('items').innerHTML =
+      '<p class="empty">No products to show yet. Once the collector has run, they’ll appear here.</p>';
+    return;
+  }
+  renderBanner(); renderCats(); render();
+}
+
+function renderBanner(){
+  const el = document.getElementById('banner');
+  const stale = state.data.products.some(p => p.offers.some(o => o.stale));
+  if (state.data.source === 'sample'){
+    el.className = 'banner';
+    el.innerHTML = '<span aria-hidden="true">⚠️</span><div><strong>Sample prices — not real</strong>' +
+      'No price source is connected yet, so these figures are illustrative. Wire up a feed in ' +
+      '<code>collect-prices.js</code> to show real prices.</div>';
+  } else {
+    el.className = 'banner live';
+    el.innerHTML = `<span aria-hidden="true">✓</span><div><strong>Prices updated ${esc(timeAgo(state.data.generatedAt))}</strong>` +
+      `Collected from store listings${stale ? '. Some prices are last-known and marked below' : ''}. Check at the till before you buy.</div>`;
+  }
+}
+
+function renderCats(){
+  document.getElementById('cats').innerHTML = CATS.map(c =>
+    `<button class="chip" aria-pressed="false" data-cat="${c.id}" onclick="setCat('${c.id}')">${esc(c.label)}</button>`
+  ).join('');
+}
+
+/* ---------------- products ---------------- */
+function visible(){
+  let list = state.data.products.slice();
+  if (state.cat !== 'all') list = list.filter(p => p.category === state.cat);
+  const q = state.query.trim().toLowerCase();
+  if (q) list = list.filter(p => (p.name + ' ' + (p.variant || '')).toLowerCase().includes(q));
+  return list;
+}
+
+function render(){
+  const list = visible();
+  const el = document.getElementById('items');
+
+  if (!list.length){
+    el.innerHTML = `<p class="empty">${state.query
+      ? `Nothing matches “${esc(state.query)}”. Try a shorter word, or clear the filters.`
+      : 'No products in this category yet.'}</p>`;
+    renderBasket();
+    return;
+  }
+
+  el.innerHTML = list.map(p => {
+    const best = bestOffer(p);
+    const u = best && unitPrice(best.price, p.size);
+    const inBasket = state.basket.has(p.id);
+    const stale = best && p.offers.find(o => o.store === best.store)?.stale;
+    return `<div class="item">
+      <div class="item-icon" aria-hidden="true">${p.icon || '🛒'}</div>
+      <div class="item-body">
+        <div class="item-name">${esc(p.name)}</div>
+        <div class="item-sub">${esc(p.variant || '')}${u ? ` · ${rupee(u.value.toFixed(u.value < 10 ? 2 : 0))}/${u.unit}` : ''}</div>
+        ${best
+          ? `<div class="item-best">${rupee(best.price)} at ${esc(storeName(best.store))}${stale ? '<span class="stale-tag">last known</span>' : ''}</div>`
+          : '<div class="item-sub">Not in stock anywhere right now</div>'}
+      </div>
+      <button class="add" aria-pressed="${inBasket}" onclick="toggle('${esc(p.id)}')">
+        ${inBasket ? 'Added ✓' : 'Add'}
+      </button>
+    </div>`;
+  }).join('');
+
+  renderBasket();
+}
+
+function toggle(id){
+  state.basket.has(id) ? state.basket.delete(id) : state.basket.add(id);
+  render();
+}
+function setCat(id){
+  state.cat = state.cat === id ? 'all' : id;
+  document.querySelectorAll('.chip[data-cat]').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.cat === state.cat)));
+  render();
+}
+function clearFilters(){
+  state.cat = 'all'; state.query = '';
+  document.getElementById('q').value = '';
+  document.querySelectorAll('.chip[data-cat]').forEach(b => b.setAttribute('aria-pressed','false'));
+  render();
+}
+
+/* ---------------- basket comparison ----------------
+   For each store: total the basket, counting only what it stocks.
+   A store missing items is ranked but flagged — cheapest-with-gaps
+   is not the same as cheapest.
+--------------------------------------------------- */
+function compare(){
+  const items = state.data.products.filter(p => state.basket.has(p.id));
+  if (!items.length) return null;
+
+  const totals = state.data.stores.map(s => {
+    let total = 0, have = 0;
+    items.forEach(p => {
+      const o = p.offers.find(x => x.store === s.id);
+      if (o && o.price != null){ total += o.price; have++; }
+    });
+    return { id:s.id, name:s.name, total, have, missing: items.length - have };
+  });
+
+  const complete = totals.filter(t => t.missing === 0).sort((a,b) => a.total - b.total);
+  const partial  = totals.filter(t => t.missing > 0).sort((a,b) => a.total - b.total);
+
+  // cheapest possible if you're willing to split across stores
+  let splitTotal = 0; const splitStores = new Set();
+  items.forEach(p => {
+    const b = bestOffer(p);
+    if (b){ splitTotal += b.price; splitStores.add(b.store); }
+  });
+
+  return { items, complete, partial, splitTotal, splitStores };
+}
+
+function renderBasket(){
+  const el = document.getElementById('basketBody');
+  const cmp = compare();
+  document.getElementById('count').textContent = state.basket.size ? `${state.basket.size} item${state.basket.size > 1 ? 's' : ''}` : '';
+
+  if (!cmp){
+    el.innerHTML = '<p class="empty">Add a few items and Compgro will work out which store is cheapest for the lot.</p>';
+    return;
+  }
+
+  const winner = cmp.complete[0] || cmp.partial[0];
+  const runnerUp = cmp.complete[1];
+  const saving = runnerUp ? runnerUp.total - winner.total : 0;
+
+  const ranks = [...cmp.complete.slice(1), ...cmp.partial].map(t =>
+    `<div class="rank ${t.missing ? 'missing' : ''}">
+       <span>${esc(t.name)}${t.missing ? ` · missing ${t.missing}` : ''}</span>
+       <span>${rupee(t.total)}</span>
+     </div>`).join('');
+
+  const showSplit = cmp.splitStores.size > 1 && cmp.splitTotal < winner.total;
+
+  el.innerHTML = `
+    <div class="win">
+      <div class="win-label">Cheapest for this basket</div>
+      <div class="win-store">${esc(winner.name)}</div>
+      <div class="win-total">${rupee(winner.total)} for ${winner.have} item${winner.have > 1 ? 's' : ''}</div>
+      <div class="win-note">
+        ${winner.missing ? `Doesn’t stock ${winner.missing} of your items. ` : ''}
+        ${saving > 0 ? `That’s ${rupee(saving)} less than the next store.` : ''}
+      </div>
+    </div>
+
+    ${ranks}
+
+    ${showSplit ? `<div class="split">Splitting across <b>${cmp.splitStores.size} stores</b> would cost
+      <b>${rupee(cmp.splitTotal)}</b> — ${rupee(winner.total - cmp.splitTotal)} less, if the extra trip is worth it.</div>` : ''}
+
+    <ul class="basket-list">
+      ${cmp.items.map(p => `<li><span>${esc(p.name)}</span>
+        <button class="remove" onclick="toggle('${esc(p.id)}')" aria-label="Remove ${esc(p.name)}">×</button></li>`).join('')}
+    </ul>
+
+    <div class="lead" id="lead">${leadHtml()}</div>
+  `;
+}
+
+/* ---------------- lead capture ----------------
+   Asked only once there's a basket worth saving, and only for something
+   the person actually gets back. Optional — the basket works without it.
+--------------------------------------------- */
+let leadSent = false;
+
+function leadHtml(){
+  if (leadSent) return '<p class="ok">Saved. We’ll text you when these prices drop.</p>';
+  return `
+    <h3>Want a text when this basket gets cheaper?</h3>
+    <p>Optional. We’ll check these items and message you if the total drops.</p>
+    <label class="vh" for="phone">Mobile number</label>
+    <input id="phone" type="tel" inputmode="numeric" placeholder="10-digit mobile number" maxlength="10" oninput="validatePhone()" />
+    <label class="consent">
+      <input type="checkbox" id="consentAlerts" onchange="validatePhone()" />
+      <span>Text me when the price of this basket changes.</span>
+    </label>
+    <label class="consent">
+      <input type="checkbox" id="consentMarketing" />
+      <span>You can also send me offers from other Compgro apps. (Optional — leave unticked and we won’t.)</span>
+    </label>
+    <button class="primary" id="leadBtn" disabled onclick="saveLead()">Save basket & alert me</button>
+    <p class="lead-note">We store your number and this basket only. Untick the second box and we won’t use it for
+      anything else. Reply STOP any time to remove your number.</p>`;
+}
+
+function validatePhone(){
+  const v = (document.getElementById('phone')?.value || '').replace(/\D/g, '');
+  const ok = /^[6-9]\d{9}$/.test(v) && document.getElementById('consentAlerts')?.checked;
+  const btn = document.getElementById('leadBtn');
+  if (btn) btn.disabled = !ok;
+}
+
+async function saveLead(){
+  const phone = document.getElementById('phone').value.replace(/\D/g, '');
+  const payload = {
+    phone,
+    pincode: document.getElementById('pin').value,
+    basket: [...state.basket],
+    marketingConsent: document.getElementById('consentMarketing').checked,
+    alertsConsent: true,
+    consentText: 'Text me when the price of this basket changes',
+    capturedAt: new Date().toISOString()
+  };
+
+  if (!LEAD_ENDPOINT){
+    console.log('Lead (no endpoint configured):', payload);
+    leadSent = true; renderBasket();
+    showToast('Saved locally — set LEAD_ENDPOINT to send these to your sheet.');
+    return;
+  }
+
+  try {
+    await fetch(LEAD_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    leadSent = true; renderBasket();
+    showToast('Saved. We’ll text you if the total drops.');
+  } catch {
+    showToast('Couldn’t save that — check your connection and try again.');
+  }
+}
+
+/* ---------------- misc ---------------- */
+let toastTimer;
+function showToast(text){
+  const el = document.getElementById('toast');
+  el.textContent = text; el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3600);
+}
+
+let searchTimer;
+document.getElementById('q').addEventListener('input', e => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => { state.query = e.target.value; render(); }, 140);
+});
+document.getElementById('pin').addEventListener('change', () =>
+  showToast('Pincode saved. Store coverage by area is coming next.'));
+
+setInterval(() => { if (state.data) renderBanner(); }, 60000);
+load();
+</script>
+</body>
+</html>
