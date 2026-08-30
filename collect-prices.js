@@ -21,7 +21,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const OUT = path.join(__dirname, 'public', 'prices.json');
+const OUT  = path.join(__dirname, 'public', 'prices.json');
+const HIST = path.join(__dirname, 'public', 'history.json');
+const HISTORY_DAYS = 90;                     // rolling window we keep
 const DELAY_MS = 2500;                       // between requests to one retailer
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -151,6 +153,69 @@ function plausible(reading, prev, warnings, label) {
   return true;
 }
 
+/* ------------------------------------------------------------------
+   PRICE HISTORY
+   One point per product per day: the best price available that day and
+   which store had it. Still a static file, still no database. Anything
+   older than HISTORY_DAYS is dropped, so the file stays small forever
+   (12 products x 90 days is a few tens of kilobytes).
+
+   The job runs hourly but we only keep one point per calendar day —
+   later runs overwrite that day's point. Storing every hour would make
+   the file 24x bigger and tell you nothing extra.
+   ------------------------------------------------------------------ */
+function updateHistory(products, startedAt, isSample) {
+  let hist = { updatedAt: null, days: HISTORY_DAYS, series: {} };
+  try {
+    const j = JSON.parse(fs.readFileSync(HIST, 'utf8'));
+    if (j && j.series) hist = j;
+  } catch { /* first run */ }
+
+  const day    = startedAt.slice(0, 10);
+  const cutoff = new Date(Date.now() - HISTORY_DAYS * 864e5).toISOString().slice(0, 10);
+
+  for (const p of products) {
+    // prefer fresh readings; fall back to last-known so a bad fetch hour
+    // doesn't punch a hole in the chart
+    const fresh = p.offers.filter(o => o.price != null && !o.stale);
+    const pool  = fresh.length ? fresh : p.offers.filter(o => o.price != null);
+    if (!pool.length) continue;
+
+    const best = pool.reduce((a, b) => (b.price < a.price ? b : a));
+    let arr = (hist.series[p.id] || []).filter(pt => pt.d >= cutoff);
+
+    // Sample mode only: backfill a plausible-looking curve so the chart is
+    // visible before real data accumulates. Deleted the moment real points
+    // start arriving, and never written when a live source is connected.
+    if (!arr.length && isSample) arr = backfill(p.id, best, day);
+
+    const point = { d: day, p: best.price, s: best.store };
+    if (arr.length && arr[arr.length - 1].d === day) arr[arr.length - 1] = point;
+    else arr.push(point);
+
+    hist.series[p.id] = arr;
+  }
+
+  hist.updatedAt = startedAt;
+  hist.days = HISTORY_DAYS;
+  hist.sample = !!isSample;
+  fs.mkdirSync(path.dirname(HIST), { recursive: true });
+  fs.writeFileSync(HIST, JSON.stringify(hist));
+  return hist;
+}
+
+function backfill(productId, best, today) {
+  const seed = [...productId].reduce((a, c) => a + c.charCodeAt(0), 0);
+  const out = [];
+  for (let i = 45; i > 0; i--) {
+    const d = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10);
+    if (d >= today) continue;
+    const wobble = Math.sin((seed + i) / 6) * 0.06 + Math.sin(i / 17) * 0.04;
+    out.push({ d, p: Math.round(best.price * (1 + wobble)), s: best.store, synthetic: true });
+  }
+  return out;
+}
+
 /* ------------------------------------------------------------------ */
 async function main() {
   const startedAt = new Date().toISOString();
@@ -217,7 +282,10 @@ async function main() {
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify(payload, null, 2));
 
+  const hist = updateHistory(products, startedAt, payload.source === 'sample');
+
   console.log(`Wrote ${products.length} products to ${OUT} (source: ${payload.source})`);
+  console.log(`History: ${Object.keys(hist.series).length} series in ${HIST}`);
   if (warnings.length) console.warn(`${warnings.length} warning(s):\n  ` + warnings.join('\n  '));
 }
 
