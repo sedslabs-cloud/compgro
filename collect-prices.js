@@ -85,24 +85,47 @@ const STORES = [
    Replace the body of readPrice() one retailer at a time.
    Return { price, mrp, stock } — or null if the SKU isn't carried.
    ------------------------------------------------------------------ */
+const { politeFetch, loadCache, saveCache, extractJsonLd, extractByPattern } = require('./crawler');
+
+/* Per-store fallback patterns, used only when a page has no JSON-LD.
+   Fill these in one retailer at a time, after looking at a real page.
+   Leave a store out entirely and it simply gets skipped. */
+const PATTERNS = {
+  // dmart: {
+  //   price:      /"sellingPrice"\s*:\s*"?([\d.]+)/,
+  //   mrp:        /"mrp"\s*:\s*"?([\d.]+)/,
+  //   outOfStock: /out\s*of\s*stock/i
+  // }
+};
+
+const crawlCache = loadCache();
+const crawlNotes = [];
+
 async function readPrice(storeId, product) {
   const url = product.urls[storeId];
 
   if (url) {
-    // ---- REAL SOURCE GOES HERE ---------------------------------------
-    // Affiliate / partner feed (preferred):
-    //   const res = await fetch(FEED_URL, { headers:{ Authorization: process.env.FEED_KEY }});
-    //   const row = (await res.json()).find(r => r.sku === url);
-    //   return row ? { price: row.sellingPrice, mrp: row.mrp,
-    //                  stock: row.inStock ? 'in' : 'out' } : null;
-    //
-    // Or a polite crawl:
-    //   const res  = await fetch(url, { headers:{ 'User-Agent':'CompgroBot/1.0 (+https://compgro.in/bot)' }});
-    //   const html = await res.text();
-    //   const price = Number((html.match(/"sellingPrice":\s*([\d.]+)/) || [])[1]);
-    //   const mrp   = Number((html.match(/"mrp":\s*([\d.]+)/) || [])[1]);
-    //   return Number.isFinite(price) ? { price, mrp: mrp || null, stock:'in' } : null;
-    // ------------------------------------------------------------------
+    try {
+      const res = await politeFetch(url, crawlCache);
+
+      // 304: nothing changed since last run. Keeping the previous price is
+      // both correct and the whole point of asking conditionally.
+      if (res.notModified) return { unchanged: true };
+      if (!res.html) return null;                    // 404/410 — not carried
+
+      const reading = extractJsonLd(res.html) || extractByPattern(res.html, PATTERNS[storeId]);
+      if (!reading) {
+        crawlNotes.push(`${product.id}|${storeId}: page fetched but no price found`);
+        return null;
+      }
+      return reading;
+
+    } catch (err) {
+      if (err.robotsBlocked)   crawlNotes.push(`${product.id}|${storeId}: blocked by robots.txt — not fetched`);
+      else if (err.rateLimited) crawlNotes.push(`${product.id}|${storeId}: rate limited, backing off`);
+      else crawlNotes.push(`${product.id}|${storeId}: ${err.message}`);
+      return null;
+    }
   }
 
   // Placeholder until a source is wired. Deterministic, so the pipeline is
@@ -234,9 +257,16 @@ async function main() {
 
       try {
         reading = await readPrice(store.id, product);
-        if (product.urls[store.id]) { live = true; await sleep(DELAY_MS); }
+        if (product.urls[store.id]) live = true;   // crawler handles its own pacing
       } catch (err) {
         warnings.push(`${label}: fetch failed — ${err.message}`);
+      }
+
+      // 304 Not Modified — carry the previous price forward as fresh,
+      // because the retailer just told us it hasn't changed.
+      if (reading && reading.unchanged) {
+        const prev304 = previous[label];
+        reading = prev304 ? { price: prev304.price, mrp: null, stock: 'in' } : null;
       }
 
       const ok   = plausible(reading, previous[label], warnings, label);
@@ -271,6 +301,9 @@ async function main() {
     });
   }
 
+  warnings.push(...crawlNotes);
+  saveCache(crawlCache);
+
   const payload = {
     source: live ? 'live' : 'sample',
     generatedAt: startedAt,
@@ -289,4 +322,43 @@ async function main() {
   if (warnings.length) console.warn(`${warnings.length} warning(s):\n  ` + warnings.join('\n  '));
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+/* ------------------------------------------------------------------
+   PROBE MODE
+     node collect-prices.js --probe "https://store.example/product/atta"
+
+   Fetches one page, reports whether robots.txt allows it, whether the
+   page carries structured data, and what price it would have read.
+   Use this before adding any URL to the catalogue — it tells you in ten
+   seconds whether a retailer is crawlable at all.
+   ------------------------------------------------------------------ */
+async function probe(url) {
+  console.log(`Probing ${url}\n`);
+  try {
+    const res = await politeFetch(url, {});
+    console.log(`  robots.txt   : allowed`);
+    console.log(`  HTTP status  : ${res.status}`);
+
+    if (!res.html) { console.log('  result       : no page body (not carried, or gone)'); return; }
+    console.log(`  page size    : ${(res.html.length / 1024).toFixed(1)} kb`);
+
+    const ld = extractJsonLd(res.html);
+    console.log(`  JSON-LD      : ${ld ? 'found' : 'none — you will need a pattern for this store'}`);
+    if (ld) console.log(`  reading      : price ${ld.price}, mrp ${ld.mrp ?? 'n/a'}, stock ${ld.stock}`);
+
+    if (!ld) {
+      // A price rendered by JavaScript won't be in the HTML at all. Worth
+      // knowing, because it means this retailer can't be crawled this way.
+      const looksJs = /__NEXT_DATA__|window\.__INITIAL_STATE__|ng-version/.test(res.html);
+      console.log(`  note         : ${looksJs
+        ? 'page looks JavaScript-rendered — the price may not exist in the HTML'
+        : 'static page; try a pattern against the raw HTML'}`);
+    }
+  } catch (err) {
+    if (err.robotsBlocked) console.log('  robots.txt   : DISALLOWED — do not crawl this path');
+    else console.log(`  failed       : ${err.message}`);
+  }
+}
+
+const probeUrl = process.argv.includes('--probe') && process.argv[process.argv.indexOf('--probe') + 1];
+if (probeUrl) probe(probeUrl).catch(e => { console.error(e); process.exit(1); });
+else main().catch(err => { console.error(err); process.exit(1); });
