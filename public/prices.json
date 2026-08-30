@@ -1,0 +1,665 @@
+{
+  "source": "sample",
+  "generatedAt": "2026-08-30T17:04:32.576Z",
+  "stores": [
+    {
+      "id": "dmart",
+      "name": "D Mart"
+    },
+    {
+      "id": "reliance",
+      "name": "Reliance Mart"
+    },
+    {
+      "id": "bigbazaar",
+      "name": "Big Bazaar"
+    },
+    {
+      "id": "more",
+      "name": "More Supermarket"
+    },
+    {
+      "id": "vishal",
+      "name": "Vishal Mega Mart"
+    }
+  ],
+  "products": [
+    {
+      "id": "toor-dal-1kg",
+      "name": "Toor Dal 1kg",
+      "variant": "Loose",
+      "icon": "🫘",
+      "category": "pulses",
+      "size": {
+        "value": 1,
+        "unit": "kg"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": 72,
+          "mrp": 81,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 141,
+          "mrp": 158,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 237,
+          "mrp": 265,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 201,
+          "mrp": 225,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": 183,
+          "mrp": 205,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    },
+    {
+      "id": "aashirvaad-atta-5kg",
+      "name": "Aashirvaad Atta 5kg",
+      "variant": "Whole wheat",
+      "icon": "🌾",
+      "category": "staples",
+      "size": {
+        "value": 5,
+        "unit": "kg"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": 99,
+          "mrp": 111,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 168,
+          "mrp": 188,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 264,
+          "mrp": 296,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 228,
+          "mrp": 255,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": null,
+          "mrp": null,
+          "stock": "out",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    },
+    {
+      "id": "india-gate-1kg",
+      "name": "India Gate Basmati Rice 1kg",
+      "variant": "Basmati",
+      "icon": "🍚",
+      "category": "staples",
+      "size": {
+        "value": 1,
+        "unit": "kg"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": 249,
+          "mrp": 279,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 88,
+          "mrp": 99,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 184,
+          "mrp": 206,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 148,
+          "mrp": 166,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": 130,
+          "mrp": 146,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    },
+    {
+      "id": "tata-salt-1kg",
+      "name": "Tata Salt 1kg",
+      "variant": "Iodised",
+      "icon": "🧂",
+      "category": "staples",
+      "size": {
+        "value": 1,
+        "unit": "kg"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": 177,
+          "mrp": 198,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 246,
+          "mrp": 276,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 112,
+          "mrp": 125,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 76,
+          "mrp": 85,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": 58,
+          "mrp": 65,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    },
+    {
+      "id": "amul-taaza-1l",
+      "name": "Amul Taaza Milk 1L",
+      "variant": "Toned milk",
+      "icon": "🥛",
+      "category": "dairy",
+      "size": {
+        "value": 1,
+        "unit": "l"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": 173,
+          "mrp": 194,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 242,
+          "mrp": 271,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 108,
+          "mrp": 121,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 72,
+          "mrp": 81,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": 54,
+          "mrp": 60,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    },
+    {
+      "id": "amul-butter-500g",
+      "name": "Amul Butter 500g",
+      "variant": "Salted",
+      "icon": "🧈",
+      "category": "dairy",
+      "size": {
+        "value": 500,
+        "unit": "g"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": 171,
+          "mrp": 192,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 240,
+          "mrp": 269,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 106,
+          "mrp": 119,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 70,
+          "mrp": 78,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": 52,
+          "mrp": 58,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    },
+    {
+      "id": "fortune-oil-1l",
+      "name": "Fortune Sunflower Oil 1L",
+      "variant": "Cooking oil",
+      "icon": "🛢️",
+      "category": "oils",
+      "size": {
+        "value": 1,
+        "unit": "l"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": 78,
+          "mrp": 87,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 147,
+          "mrp": 165,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 243,
+          "mrp": 272,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 207,
+          "mrp": 232,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": 189,
+          "mrp": 212,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    },
+    {
+      "id": "saffola-gold-1l",
+      "name": "Saffola Gold Oil 1L",
+      "variant": "Blended oil",
+      "icon": "🫒",
+      "category": "oils",
+      "size": {
+        "value": 1,
+        "unit": "l"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": 137,
+          "mrp": 153,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 206,
+          "mrp": 231,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 72,
+          "mrp": 81,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 266,
+          "mrp": 298,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": 248,
+          "mrp": 278,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    },
+    {
+      "id": "colgate-200g",
+      "name": "Colgate Strong Teeth 200g",
+      "variant": "Toothpaste",
+      "icon": "🪥",
+      "category": "personal",
+      "size": {
+        "value": 200,
+        "unit": "g"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": 225,
+          "mrp": 252,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 64,
+          "mrp": 72,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 160,
+          "mrp": 179,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 124,
+          "mrp": 139,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": 106,
+          "mrp": 119,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    },
+    {
+      "id": "surf-excel-1kg",
+      "name": "Surf Excel Easy Wash 1kg",
+      "variant": "Detergent powder",
+      "icon": "🧼",
+      "category": "household",
+      "size": {
+        "value": 1,
+        "unit": "kg"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": null,
+          "mrp": null,
+          "stock": "out",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 131,
+          "mrp": 147,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 227,
+          "mrp": 254,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 191,
+          "mrp": 214,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": 173,
+          "mrp": 194,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    },
+    {
+      "id": "maggi-560g",
+      "name": "Maggi Noodles 560g",
+      "variant": "12-pack",
+      "icon": "🍜",
+      "category": "snacks",
+      "size": {
+        "value": 560,
+        "unit": "g"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": 246,
+          "mrp": 276,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 85,
+          "mrp": 95,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 181,
+          "mrp": 203,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 145,
+          "mrp": 162,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": 127,
+          "mrp": 142,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    },
+    {
+      "id": "tata-tea-1kg",
+      "name": "Tata Tea Premium 1kg",
+      "variant": "Leaf tea",
+      "icon": "🍵",
+      "category": "snacks",
+      "size": {
+        "value": 1,
+        "unit": "kg"
+      },
+      "offers": [
+        {
+          "store": "dmart",
+          "price": 55,
+          "mrp": 62,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "reliance",
+          "price": 124,
+          "mrp": 139,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "bigbazaar",
+          "price": 220,
+          "mrp": 246,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "more",
+          "price": 184,
+          "mrp": 206,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        },
+        {
+          "store": "vishal",
+          "price": 166,
+          "mrp": 186,
+          "stock": "in",
+          "stale": false,
+          "fetchedAt": "2026-08-30T17:04:32.576Z"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}
