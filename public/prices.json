@@ -1,6 +1,6 @@
 {
   "source": "sample",
-  "generatedAt": "2026-08-30T23:02:29.576Z",
+  "generatedAt": "2026-08-31T02:42:14.391Z",
   "stores": [
     {
       "id": "dmart",
@@ -41,7 +41,7 @@
           "mrp": 81,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -49,7 +49,7 @@
           "mrp": 158,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -57,7 +57,7 @@
           "mrp": 265,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -65,7 +65,7 @@
           "mrp": 225,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -73,7 +73,7 @@
           "mrp": 205,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     },
@@ -94,7 +94,7 @@
           "mrp": 111,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -102,7 +102,7 @@
           "mrp": 188,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -110,7 +110,7 @@
           "mrp": 296,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -118,7 +118,7 @@
           "mrp": 255,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -126,7 +126,7 @@
           "mrp": null,
           "stock": "out",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     },
@@ -147,7 +147,7 @@
           "mrp": 279,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -155,7 +155,7 @@
           "mrp": 99,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -163,7 +163,7 @@
           "mrp": 206,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -171,7 +171,7 @@
           "mrp": 166,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -179,7 +179,7 @@
           "mrp": 146,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     },
@@ -200,7 +200,7 @@
           "mrp": 198,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -208,7 +208,7 @@
           "mrp": 276,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -216,7 +216,7 @@
           "mrp": 125,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -224,7 +224,7 @@
           "mrp": 85,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -232,7 +232,7 @@
           "mrp": 65,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     },
@@ -253,7 +253,7 @@
           "mrp": 194,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -261,7 +261,7 @@
           "mrp": 271,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -269,7 +269,7 @@
           "mrp": 121,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -277,7 +277,7 @@
           "mrp": 81,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -285,7 +285,7 @@
           "mrp": 60,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     },
@@ -306,7 +306,7 @@
           "mrp": 192,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -314,7 +314,7 @@
           "mrp": 269,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -322,7 +322,7 @@
           "mrp": 119,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -330,7 +330,7 @@
           "mrp": 78,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -338,7 +338,7 @@
           "mrp": 58,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     },
@@ -359,7 +359,7 @@
           "mrp": 87,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -367,7 +367,7 @@
           "mrp": 165,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -375,7 +375,7 @@
           "mrp": 272,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -383,7 +383,7 @@
           "mrp": 232,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -391,7 +391,7 @@
           "mrp": 212,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     },
@@ -412,7 +412,7 @@
           "mrp": 153,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -420,7 +420,7 @@
           "mrp": 231,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -428,7 +428,7 @@
           "mrp": 81,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -436,7 +436,7 @@
           "mrp": 298,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -444,7 +444,7 @@
           "mrp": 278,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     },
@@ -465,7 +465,7 @@
           "mrp": 252,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -473,7 +473,7 @@
           "mrp": 72,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -481,7 +481,7 @@
           "mrp": 179,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -489,7 +489,7 @@
           "mrp": 139,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -497,7 +497,7 @@
           "mrp": 119,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     },
@@ -518,7 +518,7 @@
           "mrp": null,
           "stock": "out",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -526,7 +526,7 @@
           "mrp": 147,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -534,7 +534,7 @@
           "mrp": 254,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -542,7 +542,7 @@
           "mrp": 214,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -550,7 +550,7 @@
           "mrp": 194,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     },
@@ -571,7 +571,7 @@
           "mrp": 276,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -579,7 +579,7 @@
           "mrp": 95,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -587,7 +587,7 @@
           "mrp": 203,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -595,7 +595,7 @@
           "mrp": 162,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -603,7 +603,7 @@
           "mrp": 142,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     },
@@ -624,7 +624,7 @@
           "mrp": 62,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "reliance",
@@ -632,7 +632,7 @@
           "mrp": 139,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "bigbazaar",
@@ -640,7 +640,7 @@
           "mrp": 246,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "more",
@@ -648,7 +648,7 @@
           "mrp": 206,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         },
         {
           "store": "vishal",
@@ -656,7 +656,7 @@
           "mrp": 186,
           "stock": "in",
           "stale": false,
-          "fetchedAt": "2026-08-30T23:02:29.576Z"
+          "fetchedAt": "2026-08-31T02:42:14.391Z"
         }
       ]
     }
